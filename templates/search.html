@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Candidates</title>
+  <link rel="stylesheet" href="loader.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+  <style>
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      --s: 194px;
+      --c1: #f6edb3;
+      --c2: #acc4a3;
+
+      --_l: #0000 calc(25% / 3), var(--c1) 0 25%, #0000 0;
+      --_g: conic-gradient(from 120deg at 50% 87.5%, var(--c1) 120deg, #0000 0);
+
+      background: var(--_g), var(--_g) 0 calc(var(--s) / 2),
+        conic-gradient(from 180deg at 75%, var(--c2) 60deg, #0000 0),
+        conic-gradient(from 60deg at 75% 75%, var(--c1) 0 60deg, #0000 0),
+        linear-gradient(150deg, var(--_l)) 0 calc(var(--s) / 2),
+        conic-gradient(
+          at 25% 25%,
+          #0000 50%,
+          var(--c2) 0 240deg,
+          var(--c1) 0 300deg,
+          var(--c2) 0
+        ),
+        linear-gradient(-150deg, var(--_l)) #55897c;
+      background-size: calc(0.866 * var(--s)) var(--s);
+    }
+
+    main {
+      padding: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 10px;
+      margin: 5px;
+      font-size: 1em;
+      width: 250px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .candidate {
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .candidate h3 {
+      margin: 0 0 10px;
+    }
+
+    .candidate p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container"></div>
+
+  <div class="loader" id="loader"></div>
+  <header>
+    <nav>
+      <a href="/">🏠 Home</a>
+      <a href="/add">➕ Add</a>
+      <a href="/delete">❌ Delete</a>
+      <a href="/display">📋 Display</a>
+      <a href="/sort">📊 Sort</a>
+      <a href="/search_page">🔍 Search</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>🔍 Search Candidates</h2>
+    <form id="searchForm">
+      <input type="text" placeholder="Skill (e.g., Python)" name="skill">
+      <input type="number" placeholder="Minimum Experience (years)" name="min_experience" min="0">
+      <button type="submit"><span>Search</span></button>
+    </form>
+
+    <div id="results"></div>
+  </main>
+
+  <script>
+    document.getElementById('searchForm').onsubmit = async function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const skill = form.skill.value;
+      const minExperience = form.min_experience.value;
+
+      const res = await fetch(`/search?skill=${encodeURIComponent(skill)}&min_experience=${encodeURIComponent(minExperience)}`);
+      const results = await res.json();
+
+      const container = document.getElementById('results');
+      container.innerHTML = "";
+
+      if (results.length === 0) {
+        container.innerHTML = "<p>No candidates found.</p>";
+        return;
+      }
+
+      results.forEach(candidate => {
+        const div = document.createElement('div');
+        div.classList.add('candidate');
+        div.innerHTML = `
+          <h3>${candidate.name}</h3>
+          <p>Email: ${candidate.email}</p>
+          <p>Phone: ${candidate.phone}</p>
+          <p>Experience: ${candidate.experience} years</p>
+          <p>Education: ${candidate.education_level}</p>
+        `;
+        container.appendChild(div);
+      });
+    };
+  </script>
+  <script>
+    function showLoader() {
+      document.getElementById('loader').style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('loader').style.display = 'none';
+      }, 2000);
+    }
+
+    document.querySelectorAll('button').forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        showLoader();
+      });
+    });
+  </script>
+</body>
+</html>

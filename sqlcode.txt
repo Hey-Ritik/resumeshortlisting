@@ -1,0 +1,21 @@
+use resumeshortlisting;
+UPDATE RankingWeights;
+SET experience_weight = 0.4,
+    education_weight = 0.2,
+    skill_weight = 0.3,
+    certification_weight = 0.1
+WHERE 1 = 1;
+
+INSERT INTO RankingWeights (
+    experience_weight,
+    education_weight,
+    skill_weight,
+    certification_weight
+)
+VALUES (0.4, 0.2, 0.3, 0.1);
+
+
+select * from candidate;
+select * from certifications;
+select * from rankingweights;
+select * from skills;

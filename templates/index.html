@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home | Candidate Management System</title>
+  <link rel="stylesheet" href="loader.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .home-container {
+      text-align: center;
+      margin-top: 50px;
+      padding: 20px;
+    }
+
+    .home-container h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .home-container p {
+      font-size: 1.2em;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    .nav-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #f5f5f5;
+      border-radius: 12px;
+      padding: 30px 20px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      background-color: #3498db;
+      color: white;
+    }
+
+    .card span {
+      font-size: 2em;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      --s: 194px;
+      --c1: #f6edb3;
+      --c2: #acc4a3;
+
+      --_l: #0000 calc(25% / 3), var(--c1) 0 25%, #0000 0;
+      --_g: conic-gradient(from 120deg at 50% 87.5%, var(--c1) 120deg, #0000 0);
+
+      background: var(--_g), var(--_g) 0 calc(var(--s) / 2),
+        conic-gradient(from 180deg at 75%, var(--c2) 60deg, #0000 0),
+        conic-gradient(from 60deg at 75% 75%, var(--c1) 0 60deg, #0000 0),
+        linear-gradient(150deg, var(--_l)) 0 calc(var(--s) / 2),
+        conic-gradient(
+          at 25% 25%,
+          #0000 50%,
+          var(--c2) 0 240deg,
+          var(--c1) 0 300deg,
+          var(--c2) 0
+        ),
+        linear-gradient(-150deg, var(--_l)) #55897c;
+      background-size: calc(0.866 * var(--s)) var(--s);
+    }
+  </style>
+</head>
+<body>
+  <div class="container"></div>
+
+  <div class="loader" id="loader"></div>
+
+  <header>
+    <nav>
+      <a href="/">🏠 Home</a>
+      <a href="/add">➕ Add</a>
+      <a href="/delete">❌ Delete</a>
+      <a href="/display">📋 Display</a>
+      <a href="/sort">📊 Sort</a>
+      <a href="/search_page">🔍 Search</a>
+    </nav>
+  </header>
+
+  <main class="home-container">
+    <h1>Welcome to Resume Shortlisting System</h1>
+    <p>Manage, Shortlist, and Find the Best Talent with Ease</p>
+
+    <div class="nav-cards">
+      <a href="/add" class="card"><span>➕</span> Add Candidate</a>
+      <a href="/delete" class="card"><span>❌</span> Delete Candidate</a>
+      <a href="/display" class="card"><span>📋</span> Display Candidates</a>
+      <a href="/sort" class="card"><span>📊</span> Sort Candidates</a>
+      <a href="/search_page" class="card"><span>🔍</span> Search Candidates</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </main>
+
+  <script>
+    function showLoader() {
+      document.getElementById('loader').style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('loader').style.display = 'none';
+      }, 2000);
+    }
+
+    document.querySelectorAll('button').forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        showLoader();
+      });
+    });
+  </script>
+</body>
+</html>

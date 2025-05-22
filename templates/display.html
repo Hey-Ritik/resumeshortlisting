@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Display Candidates</title>
+  <link rel="stylesheet" href="loader.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='card.css') }}"> <!-- Linked card.css -->
+  <style>
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      --s: 194px;
+      --c1: #f6edb3;
+      --c2: #acc4a3;
+
+      --_l: #0000 calc(25% / 3), var(--c1) 0 25%, #0000 0;
+      --_g: conic-gradient(from 120deg at 50% 87.5%, var(--c1) 120deg, #0000 0);
+
+      background: var(--_g), var(--_g) 0 calc(var(--s) / 2),
+        conic-gradient(from 180deg at 75%, var(--c2) 60deg, #0000 0),
+        conic-gradient(from 60deg at 75% 75%, var(--c1) 0 60deg, #0000 0),
+        linear-gradient(150deg, var(--_l)) 0 calc(var(--s) / 2),
+        conic-gradient(
+          at 25% 25%,
+          #0000 50%,
+          var(--c2) 0 240deg,
+          var(--c1) 0 300deg,
+          var(--c2) 0
+        ),
+        linear-gradient(-150deg, var(--_l)) #55897c;
+      background-size: calc(0.866 * var(--s)) var(--s);
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    .loader {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container"></div>
+
+  <div class="loader" id="loader"></div>
+  <header>
+    <nav>
+      <a href="/">🏠 Home</a>
+      <a href="/add">➕ Add</a>
+      <a href="/delete">❌ Delete</a>
+      <a href="/display">📋 Display</a>
+      <a href="/sort">📊 Sort</a>
+      <a href="/search_page">🔍 Search</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>📋 Candidate List</h2>
+    <div id="candidateList" class="card-container">
+      <!-- Candidates will be populated here -->
+    </div>
+  </main>
+
+  <script>
+    async function fetchCandidates() {
+      const res = await fetch('/api/candidates');
+      const candidates = await res.json();
+      const container = document.getElementById('candidateList');
+      container.innerHTML = '';
+
+      if (candidates.length === 0) {
+        container.innerHTML = '<p>No candidates found.</p>';
+        return;
+      }
+
+      candidates.forEach(candidate => {
+        const card = document.createElement('div');
+        card.className = 'card';  // Apply the card class
+        card.innerHTML = `
+          <a class="card1" href="#">
+            <p><strong>${candidate.name}</strong> (ID: ${candidate.candidate_id})</p>
+            <p><strong>Email:</strong> ${candidate.email}</p>
+            <p><strong>Phone:</strong> ${candidate.phone}</p>
+            <p><strong>Experience:</strong> ${candidate.experience} years</p>
+            <p><strong>Education:</strong> ${candidate.education_level}</p>
+            <p><strong>Skills:</strong> ${candidate.skills || 'N/A'}</p>
+            <p><strong>Certifications:</strong> ${candidate.certifications || 'N/A'}</p>
+            <p><strong>Total Score:</strong> ${candidate.total_score || '0.00'}</p>
+            <div class="go-corner" href="#">
+              <div class="go-arrow">→</div>
+            </div>
+          </a>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    fetchCandidates();
+  </script>
+  <script>
+    function showLoader() {
+      document.getElementById('loader').style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('loader').style.display = 'none';
+      }, 2000);
+    }
+
+    document.querySelectorAll('button').forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        showLoader();
+      });
+    });
+  </script>
+</body>
+</html>

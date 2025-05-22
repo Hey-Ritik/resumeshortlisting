@@ -1,0 +1,49 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Shortlisting - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 100px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .btn-login {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .btn-login:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Resume Shortlisting System</h1>
+    <p>This website helps you manage and evaluate candidate resumes efficiently.</p>
+
+    <a href="{{ url_for('login') }}" class="btn-login">Login</a>
+
+</body>
+</html>

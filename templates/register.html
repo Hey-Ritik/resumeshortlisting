@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register</title>
+  <style>
+    body {
+      background: #eef0ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    h2 {
+      font-size: 2.5rem;
+      color: #222;
+      text-align: center;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+    form {
+      background: #f7f7f7;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      max-width: 320px;
+      width: 100%;
+    }
+    form input[type="text"],
+    form input[type="password"],
+    form input[name="username"],
+    form input[name="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      margin: 8px 0 15px 0;
+      border: 1.8px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+    form input[type="text"]:focus,
+    form input[type="password"]:focus,
+    form input[name="username"]:focus,
+    form input[name="password"]:focus {
+      border-color: #6c63ff;
+      outline: none;
+    }
+    form input[type="submit"] {
+      width: 100%;
+      background-color: #6c63ff;
+      color: white;
+      padding: 12px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    form input[type="submit"]:hover {
+      background-color: #574bdb;
+    }
+    p {
+      text-align: center;
+      margin-top: 1rem;
+      font-family: 'Poppins', sans-serif;
+      color: #555;
+    }
+    p a {
+      color: #6c63ff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    p a:hover {
+      color: #574bdb;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <h2>Register</h2>
+    <form method="POST">
+      Username: <input name="username" type="text" /><br />
+      Password: <input name="password" type="password" /><br />
+      <input type="submit" value="Register" />
+    </form>
+    <p>Already have an account? <a href="/login">Login</a></p>
+  </div>
+
+</body>
+</html>
